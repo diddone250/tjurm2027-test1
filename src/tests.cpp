@@ -255,21 +255,29 @@ void hist_eq(float *in, int h, int w) {
      * (2) 灰度级个数为256，也就是{0, 1, 2, 3, ..., 255}
      * (3) 使用数组来实现灰度级 => 灰度级的映射
      */
-    int sm[256]={0};
-    for(int i=0;i<h*w;i++){
-        sm[int(in[i])]++;//输入整数，直接转格式
+    int sm[256]={};
+    int N=h*w;
+    for(int i=0;i<N;i++){
+        float ta=in[i];
+        int t=int(ta+0.5);
+        if(t>=256) t=255;
+        sm[t]++;
     }
-    int s2[256]={0};
+    double sk[256]={};
     for(int i=0;i<256;i++){
-        double zon=0;
         for(int j=0;j<=i;j++){
-            zon=zon+double(sm[j]);
+            sk[i]+=double(sm[j])/double(N);
         }
-        s2[i]=int((double(255)/double(h*w))*zon+0.5);//会越界吗？
-        if(s2[i]>255)s2[i]=255;
     }
-    for(int k=0;k<h*w;k++){
-        in[k]=s2[int(in[k])];//没问题（应该
+    int s0[256];
+    for(int i=0;i<256;i++){
+        s0[i]=int(sk[i]*double(255)+0.5);
+    }
+    for(int i=0;i<N;i++){
+        float ta=in[i];
+        int t=int(ta+0.5);
+        if(t>=256) t=255;
+        in[i]=s0[t];
     }
     // IMPLEMENT YOUR CODE HERE
 }
