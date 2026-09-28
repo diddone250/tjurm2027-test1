@@ -113,7 +113,7 @@ void rgb2gray(float *in, float *out, int h, int w) {
         int R = in[i*3];
         int G = in[i*3+1];
         int B = in[i*3+2];
-        int V = 0.1140 * B  + 0.5870 * G + 0.2989 * R;
+        int V = 0.1140*B +0.5870*G+0.2989*R;
         out[i]=V;
     }
 
@@ -225,20 +225,13 @@ void resize(float *in, float *out, int h, int w, int c, float scale) {
             int x1=int(src_x),y1=int(src_y);
             int x2=x1+1,y2=y1+1;
             float dx=src_x-x1,dy=src_y-y1;
-            if(x1<0) x1=0;
-            if(x1>w-1) x1=w-1;
-            if(x2<1) x2=1;
             if(x2>w-1) x2=w-1;
-            if(y1<0) y1=0;
-            if(y1>h-1) y1=h-1;
-            if(y2<1) y2=1;
             if(y2>h-1) y2=h-1;
             for(int i=0;i<c;i++){
                 float P1=in[(y1*w+x1)*c+i],P2=in[(y1*w+x2)*c+i],P3=in[(y2*w+x1)*c+i],P4=in[(y2*w+x2)*c+i];
                 float Q1=P1*(1-dx)+P2*(dx);
                 float Q2=P3*(1-dx)+P4*(dx);
-                float v=Q1*(1-dy)+Q2*(dy);
-                out[(y*new_w+x)*c+i] =v;
+                out[(y*new_w+x)*c+i]=Q1*(1-dy)+Q2*(dy);
             }
         }
     }
