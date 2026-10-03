@@ -166,6 +166,7 @@ int main() {
     test_rgb2gray();
     std::cout << "开始测试函数 << resize >> ..." << std::endl;
     test_resize();
+    std::cout << '\n';
     std::cout << "开始测试函数 << hist_eq >> ..." << std::endl;
     test_hist_eq();
     return 0;
